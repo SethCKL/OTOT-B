@@ -9,6 +9,8 @@ function App() {
   const [name, setName] = React.useState('')
   const [position, setPosition] = React.useState('')
 
+  const [avgTemp, setAvgTemp] = React.useState(0)
+
   async function addEmployee() {
     await Axios.post("/api/employees", {name, position})
     .then(() => setGetData(true));
@@ -32,7 +34,16 @@ function App() {
       });
     } 
 
+    async function getTemp() {
+      await Axios.get("https://function-1-v3czts2vfa-de.a.run.app/")
+      .then(res => {
+        const temps = res.data;
+        setAvgTemp(temps.reduce((a, b) => a + b)/temps.length);
+      });
+    } 
+
     getEmployees()
+    getTemp()
     setGetData(false)
   }, [getData])
 
@@ -40,6 +51,9 @@ function App() {
     <Box>
       <Typography variant='h2'>
         Welcome to your employee app
+      </Typography>
+      <Typography variant="h6">
+        The average temperature of Singapore now is {avgTemp}
       </Typography>
       <TextField label='Name' onChange={e => setName(e.target.value)}> </TextField>
       <TextField label='position' onChange={e => setPosition(e.target.value)}> </TextField>
