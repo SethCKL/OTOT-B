@@ -19,4 +19,4 @@ deploy:
   app: cs3219-taskb-employee
   on:
     repo: SethCKL/OTOT-B
-    branch: main
+    branch: master
